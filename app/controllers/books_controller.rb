@@ -22,6 +22,7 @@ class BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     @user = @book.user
+    @post_comment = PostComment.new
   end
 
   def index
@@ -49,7 +50,7 @@ class BooksController < ApplicationController
       render :edit
     end
   end
-
+  
   private
 
   def book_params

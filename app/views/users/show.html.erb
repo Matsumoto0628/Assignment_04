@@ -10,6 +10,7 @@
           <th></th>
           <th>Title</th>
           <th>Opinion</th>
+          <th>コメント件数：</th>
         </tr>
       </thead>
       <tbody>
@@ -22,6 +23,7 @@
               <% end %>
             </td>
             <td><%= book.body %></td>
+            <td><%= book.post_comments.count %></td>
           </tr>
         <% end %>
       </tbody>

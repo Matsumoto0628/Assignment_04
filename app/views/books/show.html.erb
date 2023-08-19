@@ -8,9 +8,28 @@
     <table class="table">
       <tbody>
         <tr>
-          <td scope="row"><%= image_tag @book.get_image(100,100) %></td>
+          <td scope="row">
+            <%= image_tag @book.get_image(100,100) %><br>
+            <%= link_to user_path(@user.id) do %>
+              <%= @user.name %>
+            <% end %>
+          </td>
           <td><%= @book.title %></td>
           <td><%= @book.body %></td>
+          <% if @book.favorited_by?(current_user) %>
+            <td>
+              <%= link_to book_favorites_path(@book), method: :delete do %>
+                <i class="fa-solid fa-heart"></i><%= @book.favorites.count %>
+              <% end %>
+            </td>
+            <% else %>
+            <td>
+              <%= link_to book_favorites_path(@book), method: :post do %>
+                <i class="fa-regular fa-heart"></i><%= @book.favorites.count %>
+              <% end %>
+            <td>
+          <% end %>
+          <td>コメント件数：<%= @book.post_comments.count %></td>
           <% if @user == current_user %>
             <td>
               <%= link_to "Edit", edit_book_path(@book), class: 'btn btn-success' %>
@@ -22,8 +41,29 @@
         </tr>
       </tbody>
     </table>
-    <%= link_to user_path(@user.id) do %>
-      <%= @user.name %>
-    <% end %>
+    <div class="d-flex">
+      <% @book.post_comments.each do |post_comment| %>
+        <div>
+          <%= image_tag post_comment.user.get_profile_image(100,100) %><br>
+          <%= link_to user_path(post_comment.user.id) do %>
+            <%= post_comment.user.name %>
+          <% end %>
+        </div>
+        <div class="my-4 ml-3">
+          <%= post_comment.comment %>
+        </div>
+        <% if post_comment.user == current_user %>
+          <div class="my-4 ml-3">
+            <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class: 'btn btn-danger' %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div>
+      <%= form_with model: [@book, @post_comment] do |f| %>
+        <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+        <%= f.submit "送信する" %>
+      <% end %>
+    </div>
   </div>
 </div>

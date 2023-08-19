@@ -1,0 +1,40 @@
+<% if defined?(@book) %>
+  <% if @book.errors.any? %>
+    <%= @book.errors.count %>errors prohibited this obj from being saved:
+    <ul>
+      <% @book.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+<div class="main row justify-content-center">
+  <div class="sidebar col-2">
+    <%= render 'sidebar', user: @user %>
+  </div>
+  <div class="col-5 offset-1">
+    <h2>Books</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Opinion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @books.each do |book| %>
+          <tr>
+            <td scope="row"><%= image_tag book.get_image(100,100) %></td>
+            <td>
+              <%= link_to book_path(book.id) do %>
+                <%= book.title %>
+              <% end %>
+            </td>
+            <td><%= book.body %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

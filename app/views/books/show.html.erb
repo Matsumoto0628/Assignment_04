@@ -1,0 +1,29 @@
+
+<div class="main row justify-content-center">
+  <div class="sidebar col-2">
+    <%= render 'sidebar', user: @user %>
+  </div>
+  <div class="col-5 offset-1">
+    <h1>Book Detail</h1>
+    <table class="table">
+      <tbody>
+        <tr>
+          <td scope="row"><%= image_tag @book.get_image(100,100) %></td>
+          <td><%= @book.title %></td>
+          <td><%= @book.body %></td>
+          <% if @user == current_user %>
+            <td>
+              <%= link_to "Edit", edit_book_path(@book), class: 'btn btn-success' %>
+            </td>
+            <td>
+              <%= link_to "Destroy", book_path(@book), method: :delete, class: 'btn btn-danger' %>
+            </td>
+          <% end %>
+        </tr>
+      </tbody>
+    </table>
+    <%= link_to user_path(@user.id) do %>
+      <%= @user.name %>
+    <% end %>
+  </div>
+</div>
